@@ -30,11 +30,6 @@ extern "C"
  */
 
 /**
- * @brief Name for download service operation. Download Manager application is launched.
- */
-#define SERVICE_OPERATION_DOWNLOAD "http://tizen.org/appcontrol/operation/download"
-
-/**
  * @brief Enumeration of error code for URL download
  */
 typedef enum
