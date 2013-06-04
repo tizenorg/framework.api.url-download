@@ -132,6 +132,7 @@ typedef void (*download_progress_cb) (int download_id, unsigned long long receiv
  * @retval #DOWNLOAD_ERROR_INVALID_PARAMETER Invalid parameter
  * @retval #DOWNLOAD_ERROR_OUT_OF_MEMORY Out of memory
  * @retval #DOWNLOAD_ERROR_IO_ERROR Internal I/O error
+ * @retval #DOWNLOAD_ERROR_QUEUE_FULL Full of queue from download server
  * @post The download state will be #DOWNLOAD_STATE_READY
  * @see download_destroy()
  */
@@ -637,6 +638,7 @@ int download_unset_progress_cb(int download_id);
  * @retval #DOWNLOAD_ERROR_URL Invalid URL
  * @retval #DOWNLOAD_ERROR_DESTINATION Invalid destination
  * @retval #DOWNLOAD_ERROR_ID_NOT_FOUND No Download ID
+ * @retval #DOWNLOAD_ERROR_QUEUE_FULL Full of queue from download server
  * @pre The download state must be #DOWNLOAD_STATE_READY, #DOWNLOAD_STATE_PAUSED, #DOWNLOAD_STATE_CANCELED, #DOWNLOAD_STATE_FAILED.
  * @post The download state will be #DOWNLOAD_STATE_QUEUED or #DOWNLOAD_STATE_DOWNLOADING
  * @see download_set_url()
