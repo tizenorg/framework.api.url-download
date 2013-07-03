@@ -2,7 +2,7 @@
 Name:	capi-web-url-download
 Summary:	CAPI for content download with web url
 Version:	1.0.3
-Release:	0
+Release:	1
 Group:		Development/Libraries
 License:	Apache License, Version 2.0
 URL:		N/A
@@ -53,6 +53,9 @@ mkdir -p %{buildroot}/usr/share/license
 %{_includedir}/web/download.h
 
 %changelog
+* Tue Jul 03 2013 Jungki Kwak <jungki.kwak@samsung.com>
+- Add enum error about smack deny
+
 * Wed Jun 12 2013 Jungki Kwak <jungki.kwak@samsung.com>
 - Remove the define of download service operation
 - Update doxygen comments
