@@ -41,6 +41,7 @@ typedef enum
 	DOWNLOAD_ERROR_CONNECTION_TIMED_OUT = TIZEN_ERROR_CONNECTION_TIME_OUT, /**< Http session time-out */
 	DOWNLOAD_ERROR_NO_SPACE = TIZEN_ERROR_FILE_NO_SPACE_ON_DEVICE, /**< No space left on device */
 	DOWNLOAD_ERROR_FIELD_NOT_FOUND = TIZEN_ERROR_KEY_NOT_AVAILABLE, /**< Specified field not found */
+	DOWNLOAD_ERROR_PERMISSION_DENIED = TIZEN_ERROR_PERMISSION_DENIED, /**< Permission denied */
 	DOWNLOAD_ERROR_INVALID_STATE = TIZEN_ERROR_WEB_CLASS | 0x21, /**< Invalid state */
 	DOWNLOAD_ERROR_CONNECTION_FAILED = TIZEN_ERROR_WEB_CLASS | 0x22, /**< Connection failed */
 	DOWNLOAD_ERROR_INVALID_URL = TIZEN_ERROR_WEB_CLASS | 0x24, /**< Invalid URL */
@@ -118,9 +119,7 @@ typedef void (*download_progress_cb) (int download_id, unsigned long long receiv
 /**
  * @brief Creates a download id.
  *
- * @remarks The @a download must be released with download_destroy() by you.\n
- * The g_type_init() should be called when creating a main loop by user side. \n
- * Because the libsoup, which is http stack library of download module, use gobject internally.
+ * @remarks The @a download is released with download_destroy() by client.\n
  * @param [out] download A download id to be newly created on success
  * @return 0 on success, otherwise a negative error value.
  * @retval #DOWNLOAD_ERROR_NONE Successful
