@@ -56,6 +56,7 @@ mkdir -p %{buildroot}/usr/share/license
 %{_libdir}/libcapi-web-url-download.so
 %{_libdir}/pkgconfig/capi-web-url-download.pc
 %{_includedir}/web/download.h
+%{_includedir}/web/download_doc.h
 
 %changelog
 * Tue Jul 03 2013 Jungki Kwak <jungki.kwak@samsung.com>
