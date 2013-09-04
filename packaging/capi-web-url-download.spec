@@ -9,6 +9,7 @@ URL:		N/A
 Source0:	%{name}-%{version}.tar.gz
 BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(dlog)
+BuildRequires: pkgconfig(bundle)
 BuildRequires: pkgconfig(download-provider-interface)
 BuildRequires: cmake
 
