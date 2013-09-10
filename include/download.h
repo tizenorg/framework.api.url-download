@@ -20,6 +20,10 @@
 #include <tizen.h>
 #include <bundle.h>
 
+#ifndef DEPRECATED
+	#define DEPRECATED __attribute__((deprecated))
+#endif
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -348,8 +352,16 @@ int download_get_file_name(int download_id, char **file_name);
  * @pre The state must be #DOWNLOAD_STATE_READY, #DOWNLOAD_STATE_FAILED, #DOWNLOAD_STATE_CANCELED
  * @see download_get_notification()
  * @see service_get_operation()
+ * @deprecated This API can be replaced with download_set_notification_type()
+ @code
+ int ret = 0;
+ //ret = download_set_notification(id, true);
+ ret = download_set_notificationo_type(id, DOWNLOAD_NOTIFICATION_TYPE_ALL);
+ //ret = download_set_notification(id, false);
+ ret = download_set_notificationo_type(id, DOWNLOAD_NOTIFICATION_TYPE_NONE);
+ @endcode
  */
-int download_set_notification(int download_id, bool enable);
+DEPRECATED int download_set_notification(int download_id, bool enable);
 
 /**
  * @brief Gets the option value to register notification messages by download service module.
@@ -360,8 +372,16 @@ int download_set_notification(int download_id, bool enable);
  * @retval #DOWNLOAD_ERROR_INVALID_PARAMETER Invalid parameter
  * @retval #DOWNLOAD_ERROR_ID_NOT_FOUND No Download ID
  * @see download_set_notification()
+ * @deprecated This API can be replaced with download_get_notification_type()
+ @code
+ int ret = 0;
+ bool val = 0;
+ download_notification_type_e type;
+ //ret = download_get_notification(id, &val);
+ ret = download_get_notification_type(id, &type);
+ @endcode
  */
-int download_get_notification(int download_id, bool *enable);
+DEPRECATED int download_get_notification(int download_id, bool *enable);
 
 /**
  * @brief Sets the extra param data which pass by application service data when notification message is clicked
@@ -380,8 +400,20 @@ int download_get_notification(int download_id, bool *enable);
  * @retval #DOWNLOAD_ERROR_ID_NOT_FOUND No Download ID
  * @see download_get_notification_extra_param()
  * @see download_remove_notification_extra_param()
+ * @deprecated This API can be replaced with download_set_notification_bundle()
+ @code
+ #include <bundle.h>
+ int ret = 0;
+ //ret = download_add_notification_extra_param(id, "specific_id", "12345");
+ b = bundle_create();
+ char buff[MAX_BUF_LEN] = {0,};
+ appsvc_set_pkgname(b, "com.samsung.test-app");
+ appsvc_add_data(b, "specific_id", "12345");
+ ret = download_set_notification_bundle(id, DOWNLOAD_NOTIFICATION_BUNDLE_TYPE_ALL, b);
+ bundle_free(b);
+ @endcode
  */
-int download_add_notification_extra_param(int download_id, const char *key, const char **values, const unsigned int length);
+DEPRECATED int download_add_notification_extra_param(int download_id, const char *key, const char **values, const unsigned int length);
 
 /**
  * @brief Remove the extra param data which pass by application service data when notification message is clicked
@@ -397,7 +429,7 @@ int download_add_notification_extra_param(int download_id, const char *key, cons
  * @see download_add_notification_extra_param()
  * @see download_get_notification_extra_param()
  */
-int download_remove_notification_extra_param(int download_id, const char *key);
+DEPRECATED int download_remove_notification_extra_param(int download_id, const char *key);
 
 /**
  * @brief Gets the extra param value to set by download_set_notification_extra_param
@@ -467,7 +499,7 @@ int download_get_mime_type(int download_id, char **mime_type);
  * @retval #DOWNLOAD_ERROR_ID_NOT_FOUND No Download ID
  * @pre The state must be #DOWNLOAD_STATE_READY, #DOWNLOAD_STATE_FAILED, #DOWNLOAD_STATE_CANCELED
  * @see download_get_auto_download()
- * @see download_set_ongoing_notification()
+ * @see download_set_notification()
  * @see download_set_notification_extra_param()
  *
  */
