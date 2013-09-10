@@ -125,20 +125,10 @@ int download_get_file_name(int download_id, char **file_name)
 	return dp_interface_get_file_name(download_id, file_name);
 }
 
-int download_set_ongoing_notification(int download_id, bool enable)
-{
-	return download_set_notification(download_id, enable);
-}
-
 int download_set_notification(int download_id, bool enable)
 {
 	TRACE_INFO("");
 	return dp_interface_set_notification(download_id, (int)enable);
-}
-
-int download_get_ongoing_notification(int download_id, bool *enable)
-{
-	return download_get_notification(download_id, enable);
 }
 
 int download_get_notification(int download_id, bool *enable)
