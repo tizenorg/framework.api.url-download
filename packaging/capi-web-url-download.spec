@@ -48,6 +48,7 @@ mkdir -p %{buildroot}/usr/share/license
 
 %files
 %defattr(-,root,root,-)
+%manifest capi-web-url-download.manifest
 %{_libdir}/libcapi-web-url-download.so.*
 /usr/share/license/%{name}
 
