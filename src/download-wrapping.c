@@ -301,3 +301,56 @@ int download_get_http_status(int download_id, int *http_status)
 	return dp_interface_get_http_status(download_id, http_status);
 }
 
+int download_set_notification_bundle(int download_id, download_notification_bundle_type_e type, bundle *b)
+{
+	TRACE_INFO("");
+	return dp_interface_set_notification_bundle(download_id, (int)type, b);
+}
+
+int download_get_notification_bundle(int download_id, download_notification_bundle_type_e type, bundle **b)
+{
+	TRACE_INFO("");
+	return dp_interface_get_notification_bundle(download_id, (int)type, b);
+}
+
+int download_set_notification_title(int download_id, const char *title)
+{
+	TRACE_INFO("");
+	return dp_interface_set_notification_title(download_id, title);
+}
+
+int download_get_notification_title(int download_id, char **title)
+{
+	TRACE_INFO("");
+	return dp_interface_get_notification_title(download_id, title);
+}
+
+int download_set_notification_description(int download_id, const char *description)
+{
+	TRACE_INFO("");
+	return dp_interface_set_notification_description(download_id, description);
+}
+
+int download_get_notification_description(int download_id, char **description)
+{
+	TRACE_INFO("");
+	return dp_interface_get_notification_description(download_id, description);
+}
+
+int download_set_notification_type(int download_id, download_notification_type_e type)
+{
+	TRACE_INFO("");
+	return dp_interface_set_notification_type(download_id, (int)type);
+}
+
+int download_get_notification_type(int download_id, download_notification_type_e *type)
+{
+	int noti_type = 0;
+
+	TRACE_INFO("");
+	int ret = dp_interface_get_notification_type(download_id, &noti_type);
+	if (ret == DOWNLOAD_ADAPTOR_ERROR_NONE)
+		*type = (download_notification_type_e)noti_type;
+	return ret;
+}
+
