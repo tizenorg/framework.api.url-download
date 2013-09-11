@@ -14,7 +14,7 @@ INCLUDE_DIRECTORIES(${INC_DIR})
 
 SET(requires "dlog capi-base-common download-provider-interface")
 MESSAGE(STATUS "PACKAGES : ${requires}")
-SET(pc_requires "capi-base-common capi-appfw-application bundle")
+SET(pc_requires "capi-base-common bundle")
 
 INCLUDE(FindPkgConfig)
 pkg_check_modules(${fw_name} REQUIRED ${requires})
