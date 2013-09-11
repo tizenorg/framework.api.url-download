@@ -17,7 +17,7 @@ MESSAGE(STATUS "PACKAGES : ${requires}")
 SET(pc_requires "capi-base-common capi-appfw-application bundle")
 
 INCLUDE(FindPkgConfig)
-pkg_check_modules(${fw_name} REQUIRED ${requires} bundle)
+pkg_check_modules(${fw_name} REQUIRED ${requires})
 FOREACH(flag ${${fw_name}_CFLAGS})
     SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
