@@ -40,6 +40,8 @@ LOGI(format, ##ARG); \
 int download_create(int *download_id)
 {
 	TRACE_INFO("");
+	if (download_id == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_create(download_id);
 }
 
@@ -71,6 +73,8 @@ int download_cancel(int download_id)
 int download_set_url(int download_id, const char *url)
 {
 	TRACE_INFO("");
+	if (url == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_set_url(download_id, url);
 }
 
@@ -78,6 +82,8 @@ int download_set_url(int download_id, const char *url)
 int download_get_url(int download_id, char **url)
 {
 	TRACE_INFO("");
+	if (url == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_url(download_id, url);
 }
 
@@ -104,38 +110,13 @@ int download_get_network_type(int download_id,
 	return ret;
 }
 
-int download_set_destination(int download_id, const char *path)
+int download_set_network_bonding(int download_id, bool enable)
 {
 	TRACE_INFO("");
-	return dp_interface_set_destination(download_id, path);
+	return dp_interface_set_network_bonding(download_id, (int)enable);
 }
 
-
-int download_get_destination(int download_id, char **path)
-{
-	TRACE_INFO("");
-	return dp_interface_get_destination(download_id, path);
-}
-
-int download_set_file_name(int download_id, const char *file_name)
-{
-	TRACE_INFO("");
-	return dp_interface_set_file_name(download_id, file_name);
-}
-
-int download_get_file_name(int download_id, char **file_name)
-{
-	TRACE_INFO("");
-	return dp_interface_get_file_name(download_id, file_name);
-}
-
-int download_set_notification(int download_id, bool enable)
-{
-	TRACE_INFO("");
-	return dp_interface_set_notification(download_id, (int)enable);
-}
-
-int download_get_notification(int download_id, bool *enable)
+int download_get_network_bonding(int download_id, bool *enable)
 {
 	int is_set = 0;
 	TRACE_INFO("");
@@ -143,44 +124,59 @@ int download_get_notification(int download_id, bool *enable)
 		TRACE_ERROR("Parameter NULL Check");
 		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	}
-	int ret = dp_interface_get_notification(download_id, &is_set);
+	int ret = dp_interface_get_network_bonding(download_id, &is_set);
 	if (ret == DOWNLOAD_ADAPTOR_ERROR_NONE)
 		*enable = (bool)is_set;
 	return ret;
 }
 
+int download_set_destination(int download_id, const char *path)
+{
+	TRACE_INFO("");
+	if (path == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_set_destination(download_id, path);
+}
+
+
+int download_get_destination(int download_id, char **path)
+{
+	TRACE_INFO("");
+	if (path == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_get_destination(download_id, path);
+}
+
+int download_set_file_name(int download_id, const char *file_name)
+{
+	TRACE_INFO("");
+	if (file_name == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_set_file_name(download_id, file_name);
+}
+
+int download_get_file_name(int download_id, char **file_name)
+{
+	TRACE_INFO("");
+	if (file_name == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_get_file_name(download_id, file_name);
+}
+
 int download_get_downloaded_file_path(int download_id, char **path)
 {
 	TRACE_INFO("");
+	if (path == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_downloaded_file_path(download_id, path);
-}
-
-int download_add_notification_extra_param(
-		int download_id, const char *key,
-		const char **value, const unsigned int length)
-{
-	TRACE_INFO("");
-	return dp_interface_add_noti_extra(download_id, key, value, length);
-}
-
-int download_remove_notification_extra_param(int download_id, const char *key)
-{
-	TRACE_INFO("");
-	return dp_interface_remove_noti_extra_key(download_id, key);
-}
-
-int download_get_notification_extra_param(
-		int download_id, const char *key,
-		char ***values, unsigned int *length)
-{
-	TRACE_INFO("");
-	return dp_interface_get_noti_extra_values(download_id, key, values, length);
 }
 
 int download_add_http_header_field(int download_id, const char *field,
 	const char *value)
 {
 	TRACE_INFO("");
+	if (field == NULL || value == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return
 		dp_interface_add_http_header_field(download_id, field, value);
 }
@@ -189,6 +185,8 @@ int download_get_http_header_field(int download_id,
 	const char *field, char **value)
 {
 	TRACE_INFO("");
+	if (field == NULL || value == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return
 		dp_interface_get_http_header_field(download_id, field, value);
 }
@@ -197,6 +195,8 @@ int download_get_http_header_field_list(int download_id, char ***fields,
 	int *length)
 {
 	TRACE_INFO("");
+	if (fields == NULL || length == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_http_header_field_list(download_id, fields,
 		length);
 }
@@ -205,6 +205,8 @@ int download_remove_http_header_field(int download_id,
 	const char *field)
 {
 	TRACE_INFO("");
+	if (field == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_remove_http_header_field(download_id, field);
 }
 
@@ -255,12 +257,16 @@ int download_get_state(int download_id, download_state_e *state)
 int download_get_temp_path(int download_id, char **temp_path)
 {
 	TRACE_INFO("");
+	if (temp_path == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_temp_path(download_id, temp_path);
 }
 
 int download_get_content_name(int download_id, char **content_name)
 {
 	TRACE_INFO("");
+	if (content_name == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_content_name(download_id, content_name);
 }
 
@@ -268,12 +274,16 @@ int download_get_content_size(int download_id,
 	unsigned long long *content_size)
 {
 	TRACE_INFO("");
+	if (content_size == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_content_size(download_id, content_size);
 }
 
 int download_get_mime_type(int download_id, char **mime_type)
 {
 	TRACE_INFO("");
+	if (mime_type == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_mime_type(download_id, mime_type);
 }
 
@@ -314,42 +324,56 @@ int download_get_error(int download_id, download_error_e *error)
 int download_get_http_status(int download_id, int *http_status)
 {
 	TRACE_INFO("");
+	if (http_status == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_http_status(download_id, http_status);
 }
 
-int download_set_notification_bundle(int download_id, download_notification_bundle_type_e type, bundle *b)
+int download_set_notification_app_control(int download_id, download_notification_app_control_type_e type, app_control_h handle)
 {
 	TRACE_INFO("");
-	return dp_interface_set_notification_bundle(download_id, (int)type, b);
+	if (handle == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_set_notification_service_handle(download_id, (int)type, handle);
 }
 
-int download_get_notification_bundle(int download_id, download_notification_bundle_type_e type, bundle **b)
+int download_get_notification_app_control(int download_id, download_notification_app_control_type_e type, app_control_h *handle)
 {
 	TRACE_INFO("");
-	return dp_interface_get_notification_bundle(download_id, (int)type, b);
+	if (handle == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_get_notification_service_handle(download_id, (int)type, handle);
 }
 
 int download_set_notification_title(int download_id, const char *title)
 {
 	TRACE_INFO("");
+	if (title == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_set_notification_title(download_id, title);
 }
 
 int download_get_notification_title(int download_id, char **title)
 {
 	TRACE_INFO("");
+	if (title == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_notification_title(download_id, title);
 }
 
 int download_set_notification_description(int download_id, const char *description)
 {
 	TRACE_INFO("");
+	if (description == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_set_notification_description(download_id, description);
 }
 
 int download_get_notification_description(int download_id, char **description)
 {
 	TRACE_INFO("");
+	if (description == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
 	return dp_interface_get_notification_description(download_id, description);
 }
 
@@ -373,3 +397,18 @@ int download_get_notification_type(int download_id, download_notification_type_e
 	return ret;
 }
 
+int download_get_etag(int download_id, char **etag)
+{
+	TRACE_INFO("");
+	if (etag == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_get_etag(download_id, etag);
+}
+
+int download_set_temp_file_path(int download_id, char *path)
+{
+	TRACE_INFO("");
+	if (path == NULL)
+		return DOWNLOAD_ERROR_INVALID_PARAMETER;
+	return dp_interface_set_temp_file_path(download_id, path);
+}

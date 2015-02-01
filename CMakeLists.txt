@@ -10,11 +10,12 @@ SET(VERSION_MAJOR 0)
 SET(VERSION "${VERSION_MAJOR}.1.0")
 
 SET(INC_DIR include)
+SET(DOC_DIR doc)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
-SET(requires "dlog capi-base-common download-provider-interface")
+SET(requires "dlog capi-base-common capi-appfw-application download-provider-interface")
 MESSAGE(STATUS "PACKAGES : ${requires}")
-SET(pc_requires "capi-base-common bundle")
+SET(pc_requires "capi-base-common capi-appfw-application")
 
 INCLUDE(FindPkgConfig)
 pkg_check_modules(${fw_name} REQUIRED ${requires})
@@ -45,7 +46,7 @@ SET_TARGET_PROPERTIES(${fw_name} PROPERTIES SOVERSION ${VERSION_MAJOR})
 
 INSTALL(TARGETS ${fw_name} DESTINATION ${LIB_INSTALL_DIR})
 INSTALL(FILES ${INC_DIR}/download.h DESTINATION include/web/)
-INSTALL(FILES ${INC_DIR}/download_doc.h DESTINATION include/web/)
+INSTALL(FILES ${DOC_DIR}/download_doc.h DESTINATION include/web/)
 
 SET(PC_NAME ${fw_name})
 SET(PC_REQUIRED ${pc_requires})
