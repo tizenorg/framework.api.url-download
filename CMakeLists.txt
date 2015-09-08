@@ -6,11 +6,14 @@ PROJECT(${fw_name})
 
 SET(CMAKE_INSTALL_PREFIX /usr)
 SET(PREFIX ${CMAKE_INSTALL_PREFIX})
+SET(VERSION_MAJOR 0)
+SET(VERSION "${VERSION_MAJOR}.1.0")
 
 SET(INC_DIR include)
+SET(DOC_DIR doc)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
-SET(requires "dlog capi-base-common bundle capi-appfw-app-manager capi-appfw-application download-provider")
+SET(requires "dlog capi-base-common capi-appfw-application download-provider-interface")
 MESSAGE(STATUS "PACKAGES : ${requires}")
 SET(pc_requires "capi-base-common capi-appfw-application")
 
@@ -20,7 +23,7 @@ FOREACH(flag ${${fw_name}_CFLAGS})
     SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fPIC -Wall -Werror")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fPIC -Wall")
 SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
 
 IF("${ARCH}" STREQUAL "arm")
@@ -29,22 +32,21 @@ ENDIF("${ARCH}" STREQUAL "arm")
 
 ADD_DEFINITIONS("-DPREFIX=\"${CMAKE_INSTALL_PREFIX}\"")
 ADD_DEFINITIONS("-DSLP_DEBUG")
+ADD_DEFINITIONS(-DDP_SUPPORT_DBUS_ACTIVATION)
 
-SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--rpath=/usr/lib")
+SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--rpath=${LIB_INSTALL_DIR}")
 
-SET(SOURCES src/url_download_provider.c)
+SET(SOURCES src/download-wrapping.c)
 MESSAGE(STATUS "SOURCES : ${SOURCES}")
 ADD_LIBRARY(${fw_name} SHARED ${SOURCES})
 
 TARGET_LINK_LIBRARIES(${fw_name} ${${fw_name}_LDFLAGS})
+SET_TARGET_PROPERTIES(${fw_name} PROPERTIES VERSION ${VERSION})
+SET_TARGET_PROPERTIES(${fw_name} PROPERTIES SOVERSION ${VERSION_MAJOR})
 
-INSTALL(TARGETS ${fw_name} DESTINATION lib)
-INSTALL(
-        DIRECTORY ${INC_DIR}/ DESTINATION include/web
-        FILES_MATCHING
-        PATTERN "*_private.h" EXCLUDE
-        PATTERN "${INC_DIR}/*.h"
-        )
+INSTALL(TARGETS ${fw_name} DESTINATION ${LIB_INSTALL_DIR})
+INSTALL(FILES ${INC_DIR}/download.h DESTINATION include/web/)
+INSTALL(FILES ${DOC_DIR}/download_doc.h DESTINATION include/web/)
 
 SET(PC_NAME ${fw_name})
 SET(PC_REQUIRED ${pc_requires})
@@ -56,7 +58,13 @@ CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/${fw_name}.pc
     @ONLY
 )
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${fw_name}.pc DESTINATION lib/pkgconfig)
+CONFIGURE_FILE(
+	LICENSE
+    ${fw_name}
+    @ONLY
+)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${fw_name}.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${fw_name} DESTINATION share/license)
 
 IF(UNIX)
 
