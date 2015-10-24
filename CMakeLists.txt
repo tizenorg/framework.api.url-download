@@ -36,7 +36,11 @@ ADD_DEFINITIONS(-DDP_SUPPORT_DBUS_ACTIVATION)
 
 SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--rpath=${LIB_INSTALL_DIR}")
 
-SET(SOURCES src/download-wrapping.c)
+SET(SOURCES 
+			src/download-wrapping.c
+			src/download-product-wrapping.c
+)
+			
 MESSAGE(STATUS "SOURCES : ${SOURCES}")
 ADD_LIBRARY(${fw_name} SHARED ${SOURCES})
 
@@ -46,6 +50,7 @@ SET_TARGET_PROPERTIES(${fw_name} PROPERTIES SOVERSION ${VERSION_MAJOR})
 
 INSTALL(TARGETS ${fw_name} DESTINATION ${LIB_INSTALL_DIR})
 INSTALL(FILES ${INC_DIR}/download.h DESTINATION include/web/)
+INSTALL(FILES ${INC_DIR}/download_product.h DESTINATION include/web/)
 INSTALL(FILES ${DOC_DIR}/download_doc.h DESTINATION include/web/)
 
 SET(PC_NAME ${fw_name})
@@ -59,7 +64,7 @@ CONFIGURE_FILE(
     @ONLY
 )
 CONFIGURE_FILE(
-	LICENSE
+	LICENSE.APLv2
     ${fw_name}
     @ONLY
 )
@@ -97,3 +102,4 @@ ADD_CUSTOM_COMMAND(
 
 ENDIF(UNIX)
 
+ADD_SUBDIRECTORY(testcase/)

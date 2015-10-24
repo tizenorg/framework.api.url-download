@@ -16,6 +16,7 @@
 
 #include <tet_api.h>
 #include <download.h>
+#include <bundle_internal.h>
 
 static void startup(void);
 static void cleanup(void);

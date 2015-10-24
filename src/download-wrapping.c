@@ -110,26 +110,6 @@ int download_get_network_type(int download_id,
 	return ret;
 }
 
-int download_set_network_bonding(int download_id, bool enable)
-{
-	TRACE_INFO("");
-	return dp_interface_set_network_bonding(download_id, (int)enable);
-}
-
-int download_get_network_bonding(int download_id, bool *enable)
-{
-	int is_set = 0;
-	TRACE_INFO("");
-	if (enable == NULL) {
-		TRACE_ERROR("Parameter NULL Check");
-		return DOWNLOAD_ERROR_INVALID_PARAMETER;
-	}
-	int ret = dp_interface_get_network_bonding(download_id, &is_set);
-	if (ret == DOWNLOAD_ADAPTOR_ERROR_NONE)
-		*enable = (bool)is_set;
-	return ret;
-}
-
 int download_set_destination(int download_id, const char *path)
 {
 	TRACE_INFO("");
